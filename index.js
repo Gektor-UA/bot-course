@@ -14,7 +14,7 @@ const startGame = async (chatId) => {
   await bot.sendMessage(chatId, 'Я зараз загадаю число від 0 до 9 а ти спробуй його відгадати');
   const randomNumber = Math.floor(Math.random() * 10);
   chats[chatId] = randomNumber;
-  console.log(randomNumber);
+  console.log('============ 17 =============' + randomNumber);
   await bot.sendMessage(chatId, 'Відгадуй', gameOptions);
 } 
 
@@ -26,7 +26,9 @@ const start = () => {
   ]);
 
   bot.on('message', async msg => {
+    console.log('=========== 29 ==========');
     console.log(msg);
+    console.log('=========== 31 ==========');
 
     const text = msg.text;
     const chatId = msg.chat.id;
@@ -47,15 +49,16 @@ const start = () => {
   })
 
   bot.on('callback_query', async msg => {
-    console.log(msg);
-
     const data = msg.data;
     const chatId = msg.message.chat.id;
+
+    console.log('========== 53 =============' + data);
+
     if (data === '/again') {
       return startGame(chatId);
     }
     // bot.sendMessage(chatId, `Ти вибрав цифру ${data}`);
-    if (data === chats[chatId]) {
+    if (data == chats[chatId]) {
       return bot.sendMessage(chatId, `Вітаю! Ти відгадав це число ${chats[chatId]}`, againOptions);
     } else {
       return bot.sendMessage(chatId, `Ти НЕ відгадав. Бот загадав число ${chats[chatId]}`, againOptions);
